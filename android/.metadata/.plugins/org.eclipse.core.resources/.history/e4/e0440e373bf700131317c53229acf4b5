@@ -1,0 +1,50 @@
+package com.example.touchscreencontroller;
+
+import android.app.Activity;
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.os.Bundle;
+import android.view.View;
+
+public class MainActivity extends Activity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+}
+
+class JoyPads extends View {
+	int screenW;
+	int screenH;
+
+	public float circleOneXpos = 0.0f;
+	public float circleOneYpos = 0.0f;
+	public float circleTwoXpos = 0.0f;
+	public float circleTwoYpos = 0.0f;
+	
+	private Paint paint = new Paint();
+	
+	private final float circleRad = 2.0f;
+
+	public JoyPads(Context context) {
+		super(context);
+		paint.setARGB(255, 0, 0, 255);
+	}
+
+	@Override
+	public void onSizeChanged(int w, int h, int oldw, int oldh) {
+		super.onSizeChanged(w, h, oldw, oldh);
+		screenW = w;
+		screenH = h;
+	}
+
+	@Override
+	public void onDraw(Canvas canvas) {
+		super.onDraw(canvas);
+		canvas.drawCircle(circleOneXpos, circleOneYpos, circleRad, paint);
+		invalidate();
+	}
+}

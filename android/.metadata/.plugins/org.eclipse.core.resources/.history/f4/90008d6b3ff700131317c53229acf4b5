@@ -1,0 +1,86 @@
+package com.example.touchscreencontroller;
+
+import android.app.Activity;
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Paint.Style;
+import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
+
+public class MainActivity extends Activity {
+	
+	View joyPads;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        joyPads = new JoyPads(this);
+        setContentView(joyPads);
+    }
+    
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        int x = (int)event.getX();
+        int y = (int)event.getY();
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+            case MotionEvent.ACTION_MOVE:
+            case MotionEvent.ACTION_UP:
+        }
+    return false;
+    }
+}
+
+class JoyPads extends View {
+	int screenW;
+	int screenH;
+
+	public float circleOneXpos = 0.0f;
+	public float circleOneYpos = 0.0f;
+	public float circleTwoXpos = 0.0f;
+	public float circleTwoYpos = 0.0f;
+	
+	private float circleOneAbsXpos = 0.0f;
+	private float circleOneAbsYpos = 0.0f;
+	private float circleTwoAbsXpos = 0.0f;
+	private float circleTwoAbsYpos = 0.0f;
+	
+	private Paint paint;
+	private Paint outln;
+	
+	private final float circleRad = 2.0f;
+
+	public JoyPads(Context context) {
+		super(context);
+		paint = new Paint();
+		paint.setStyle(Style.FILL);
+		paint.setColor(Color.BLUE);
+		outln = new Paint();
+		outln.setStyle(Style.FILL);
+		outln.setColor(Color.LTGRAY);
+	}
+
+	@Override
+	public void onSizeChanged(int w, int h, int oldw, int oldh) {
+		super.onSizeChanged(w, h, oldw, oldh);
+		screenW = w;
+		screenH = h;
+	}
+
+	@Override
+	public void onDraw(Canvas canvas) {
+		super.onDraw(canvas);
+		
+		// Draw outline shapes for joypads.
+		canvas.drawCircle(screenW/4, screenH/2, screenW/3, outln);
+		canvas.drawCircle((screenW/2) + (screenW / 4), screenH/2, screenW/6, outln);
+		
+		circleOneAbsXpos = (screenW/2) + circleOneXpos;
+		circleOneAbsYpos = (screenH/2) + circleOneYpos;
+		canvas.drawCircle(circleOneAbsXpos, circleOneAbsYpos, circleRad, paint);
+		invalidate();
+	}
+}
